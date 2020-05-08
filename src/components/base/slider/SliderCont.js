@@ -5,9 +5,10 @@ import {useSelector} from 'react-redux';
 
 function SliderCont(props) {
   const {
-    slideInfo,
-    width,
-    height,
+    slideInfo = [],
+    width = '400px',
+    height = '400px',
+    type = 'slide',
   } = props;
   
   const {slider} = useSelector(state => state);
@@ -25,7 +26,7 @@ function SliderCont(props) {
 
   return (
     <Styled.Slider {...props} viewSlideIdx={viewSlideIdx}>
-      <ul>
+      <ul className={`${type}`}>
         {slideItem}
       </ul>
     </Styled.Slider>
@@ -38,16 +39,39 @@ const Styled = {
     width: ${props => props.width ? props.width : '400px'};
     height: ${props => props.height ? props.height : '400px'};
 
-    & > ul {
+    & > ul.slide {
       width: ${props => props.width ? `calc(${props.width} * ${props.slideInfo.length})` : `calc(400px * ${props.slideInfo.length})`};
       height: ${props => props.height ? props.height : '400px'};
       font-size: 0;
       transition: transform 0.3s linear;
       transform: ${props => `translateX(calc(-100% / ${props.slideInfo.length} * ${props.viewSlideIdx}))`};
+
+      .slider_item {
+        display: inline-block;
+      }
     }
     
+    & > ul.fade {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      .slider_item {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+        
+        &:nth-of-type(${props => props.viewSlideIdx+1}){
+          opacity: 1;
+        }
+      }
+    }
+
     .slider_item {
-      display: inline-block;
       width: ${props => props.width ? props.width : '400px'};
       height: ${props => props.height ? props.height : '400px'};
       
