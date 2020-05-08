@@ -1,11 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import {Actions} from '../store/actionCreator';
+
 
 function index(props) {
+
   return (
-    <div>
+    <Styled.Home>
       home
-    </div>
+    </Styled.Home>
   );
+}
+
+const Styled = {
+  Home: styled.div`
+    
+  `,
 }
 
 export default index;

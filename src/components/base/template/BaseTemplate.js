@@ -126,9 +126,6 @@ const Styled = {
         align-content: center;
       }
     }
-    main > div{
-      height: 200vh;
-    }
   
   `,
   GlobalStyles: createGlobalStyle`
