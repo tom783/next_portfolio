@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import styled from 'styled-components';
 import {useImmer} from 'use-immer';
 
@@ -27,6 +27,33 @@ function HamburgerMenu(props) {
       draft.HamburgerMenu.on = !valuse.HamburgerMenu.on;
     });
   }
+
+  const flyOutCheck = e => {
+    let checkElement = e.path;
+    let checkElementLength = checkElement.length;
+    let isFlyOut = false;
+    
+    for(let i = 0; i < checkElementLength; i++){
+      if(checkElement[i].className !== undefined){
+        if(checkElement[i].className.indexOf('menu') === -1 && checkElement[i].className.indexOf('menu_bar') === -1){
+          isFlyOut = true;
+        }else{
+          isFlyOut = false;
+          break;
+        }
+      }
+    }
+    
+    if(isFlyOut){
+      setValuse(draft => {
+        draft.HamburgerMenu.on = false;
+      });
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', flyOutCheck);
+  },[]);
 
   return (
     <Styled.HamburgerMenu {...props}>

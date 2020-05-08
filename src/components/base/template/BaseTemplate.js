@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from "styled-reset";
 import Link from 'next/link';
+import {useImmer} from 'use-immer';
+import _ from 'lodash';
 
 import {HamburgerMenu} from '../menu';
 
+const initState = {
+  headerActive: {
+    on: false,
+  }
+}
+
 function BaseTemplate(props) {
   const {children} = props;
+  const [values, setValues] = useImmer(initState);
+  const {headerActive : {on}} = values;
+  const headerRef = useRef(null);
+  const mainRef = useRef(null);
 
   const lintInfo = [
     {
@@ -27,6 +39,29 @@ function BaseTemplate(props) {
     },
   ]
 
+  
+
+  const handleScroll = e => {
+    const windowScroll = window.scrollY;
+    
+    if(windowScroll > 3){
+      setValues(draft => {
+        draft.headerActive.on = true;
+      });
+    }else if(windowScroll === 0){
+      setValues(draft => {
+        draft.headerActive.on = false;
+      });
+    }
+    
+  }
+
+  useEffect(() => {
+    if(mainRef.current){
+      document.addEventListener('scroll', _.throttle(handleScroll, 300));
+    }
+  },[values.headerActive.on]);
+
   const menuList = lintInfo.map((i, idx) => {
     return (
       <li key={idx}><Link href={i.link}><a>{i.title}</a></Link></li>
@@ -37,7 +72,7 @@ function BaseTemplate(props) {
     <>
     <Styled.GlobalStyles />
     <Styled.BaseTemplate>
-      <header>
+      <header className={on ? 'on' : ''} ref={headerRef}>
         <h1 className="logo">
           LOGO
         </h1>
@@ -47,7 +82,7 @@ function BaseTemplate(props) {
           </ul>
         </HamburgerMenu>
       </header>
-      <main>
+      <main ref={mainRef}>
         {children}
       </main>
     </Styled.BaseTemplate>
@@ -78,7 +113,7 @@ const Styled = {
         top: 0;
         height: 0;
         background-color: #ffa502;
-        transition: height 0.3s ease-in;
+        transition: height 0.1s ease;
         z-index: -1;
       }
 
@@ -90,6 +125,9 @@ const Styled = {
         display: flex;
         align-content: center;
       }
+    }
+    main > div{
+      height: 200vh;
     }
   
   `,
