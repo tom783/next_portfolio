@@ -85,10 +85,20 @@ function BaseTemplate(props) {
       <main ref={mainRef}>
         {children}
       </main>
+      <footer>
+        <h2 className="footer_logo">
+          LOGO
+        </h2>
+        <address>
+          test address @copyright
+        </address>
+      </footer>
     </Styled.BaseTemplate>
     </>
   );
 }
+
+const common_padding = '60px';
 
 const Styled = {
   BaseTemplate: styled.div`
@@ -100,7 +110,7 @@ const Styled = {
       left: 0;
       width: 100%;
       height: 80px;
-      padding: 0 60px;
+      padding: 0 ${common_padding};
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -124,6 +134,24 @@ const Styled = {
       .logo {
         display: flex;
         align-content: center;
+      }
+    }
+
+    footer {
+      display: flex;
+      height: 200px;
+      background-color: #ffa502;
+      justify-content: center;
+      flex-flow: column;
+      padding: ${common_padding};
+
+      .footer_logo {
+        
+      }
+
+      address {
+        font-size: 18px;
+        margin-top: 20px;
       }
     }
   

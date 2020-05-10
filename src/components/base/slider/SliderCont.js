@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 function SliderCont(props) {
   const {
     slideInfo = [],
-    width = '400px',
+    width = '100%',
     height = '400px',
     type = 'slide',
   } = props;
@@ -36,12 +36,12 @@ function SliderCont(props) {
 const Styled = {
   Slider: styled.div`
     overflow: hidden;
-    width: ${props => props.width ? props.width : '400px'};
-    height: ${props => props.height ? props.height : '400px'};
+    width: ${props => props.width ? props.width : '100%'};
+    height: ${props => props.height ? props.height : '100%'};
 
     & > ul.slide {
-      width: ${props => props.width ? `calc(${props.width} * ${props.slideInfo.length})` : `calc(400px * ${props.slideInfo.length})`};
-      height: ${props => props.height ? props.height : '400px'};
+      width: ${props => props.width ? `calc(${props.width} * ${props.slideInfo.length})` : `calc(100% * ${props.slideInfo.length})`};
+      height: ${props => props.height ? props.height : '100%'};
       font-size: 0;
       transition: transform 0.3s linear;
       transform: ${props => `translateX(calc(-100% / ${props.slideInfo.length} * ${props.viewSlideIdx}))`};
@@ -72,8 +72,8 @@ const Styled = {
     }
 
     .slider_item {
-      width: ${props => props.width ? props.width : '400px'};
-      height: ${props => props.height ? props.height : '400px'};
+      width: ${props => props.width ? props.width : `calc(100% / ${props.slideInfo.length})`};
+      height: ${props => props.height ? props.height : '100%'};
       
       & .img {
         display: block;

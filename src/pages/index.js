@@ -40,9 +40,11 @@ function index(props) {
   return (
     <Styled.Home>
       home
-      <SliderCont
-        slideInfo={imgList}
-      />
+      <div className="slide_div">
+        <SliderCont
+          slideInfo={imgList}
+        />
+      </div>
       <button onClick={testF({type: 'left'})}>left</button>
       <button onClick={testF({type: 'right'})}>right</button>
     </Styled.Home>
@@ -51,7 +53,10 @@ function index(props) {
 
 const Styled = {
   Home: styled.div`
-    
+    .slide_div {
+      width: 400px;
+      height: 400px;
+    }
   `,
 }
 
